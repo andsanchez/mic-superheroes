@@ -97,7 +97,11 @@
                                 <openApiNullable>false</openApiNullable>
                                 <useBeanValidation>true</useBeanValidation>
                                 <useJakartaEe>true</useJakartaEe>
-                                <additionalModelTypeAnnotations>@lombok.Data @lombok.NoArgsConstructor @lombok.AllArgsConstructor</additionalModelTypeAnnotations>
+                                <additionalModelTypeAnnotations>
+                                    @lombok.Data
+                                    @lombok.NoArgsConstructor
+                                    @lombok.AllArgsConstructor
+                                </additionalModelTypeAnnotations>
                             </configOptions>
                             <apiPackage>${default.package}.superheros.infrastructure.rest</apiPackage>
                             <modelPackage>${default.package}.superheros.infrastructure.rest</modelPackage>
