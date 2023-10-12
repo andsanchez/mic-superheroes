@@ -6,12 +6,21 @@ info:
 servers:
   - url: http://localhost:8080
 paths:
-  /v1/superheros/:
+  /v1/superheros:
     get:
       tags:
         - superhero
       summary: Retrieve all superheros
+      description: Returns a list of all superheroes. Allows to search for superheroes containing in their name the value provided in query parameter. For example, if param name is man, the response will be the superheros Spiderman, Superman, Manolito el fuerte, etc.
       operationId: getSuperheros
+      parameters:
+        - name: name
+          in: query
+          description: Name of the superhero to search for
+          example: man
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: A list of superheros
@@ -99,27 +108,6 @@ paths:
       responses:
         '204':
           description: Superhero deleted successfully
-  /v1/superheros/find:
-    get:
-      tags:
-        - superhero
-      summary: Find superheros by name
-      operationId: findSuperheros
-      parameters:
-        - name: name
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: A list of superheros matching the search query
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Superhero'
 components:
   schemas:
     Superhero:
