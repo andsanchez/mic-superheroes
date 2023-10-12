@@ -48,8 +48,8 @@ public class SuperheroControllerIT {
 
     @Test
     public void createSuperhero() {
-        // Preparar los datos para crear un superhéroe
         SuperheroDto superheroDto = new SuperheroDto();
+        superheroDto.setName("Hulk");
 
         ResponseEntity<String> response = template.postForEntity("/v1/superheros", superheroDto, String.class);
 
@@ -58,8 +58,7 @@ public class SuperheroControllerIT {
 
     @Test
     public void deleteSuperhero() {
-        // Supongamos que tienes un ID válido para eliminar un superhéroe
-        Long superheroIdToDelete = 1L; // Reemplaza con un ID válido
+        Long superheroIdToDelete = 2L;
 
         ResponseEntity<String> response = template.exchange("/v1/superheros/{id}", HttpMethod.DELETE, null, String.class, superheroIdToDelete);
 
@@ -82,10 +81,17 @@ public class SuperheroControllerIT {
     public void updateSuperhero() {
         Long superheroIdToUpdate = 1L;
         SuperheroDto updatedSuperheroDto = new SuperheroDto();
+        String updatedName = "Updated Superman";
+        updatedSuperheroDto.setName(updatedName);
 
-        ResponseEntity<String> response = template.exchange("/v1/superheros/{id}", HttpMethod.PUT, new HttpEntity<>(updatedSuperheroDto), String.class, superheroIdToUpdate);
+        ResponseEntity<SuperheroDto> response = template.exchange("/v1/superheros/{id}", HttpMethod.PUT, new HttpEntity<>(updatedSuperheroDto), SuperheroDto.class, superheroIdToUpdate);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull()
+                .returns(1L, SuperheroDto::getId)
+                .returns(updatedName, SuperheroDto::getName);
     }
+
+
 
 }
