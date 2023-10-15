@@ -1,8 +1,8 @@
-package com.andsanchez.micsuperheros.superheros.application;
+package com.andsanchez.micsuperheros.application;
 
-import com.andsanchez.micsuperheros.superheros.domain.Superhero;
-import com.andsanchez.micsuperheros.superheros.domain.SuperheroRepository;
-import com.andsanchez.micsuperheros.superheros.domain.SuperheroService;
+import com.andsanchez.micsuperheros.domain.Superhero;
+import com.andsanchez.micsuperheros.domain.SuperheroRepository;
+import com.andsanchez.micsuperheros.domain.SuperheroService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

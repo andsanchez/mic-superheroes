@@ -1,6 +1,6 @@
 package com.andsanchez.micsuperheros.mother;
 
-import com.andsanchez.micsuperheros.superheros.infrastructure.persistence.SuperheroEntity;
+import com.andsanchez.micsuperheros.infrastructure.persistence.SuperheroEntity;
 import net.datafaker.Faker;
 
 public class SuperheroEntityMother {

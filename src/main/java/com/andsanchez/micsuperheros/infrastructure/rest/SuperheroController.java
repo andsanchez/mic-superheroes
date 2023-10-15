@@ -1,7 +1,9 @@
-package com.andsanchez.micsuperheros.superheros.infrastructure.rest;
+package com.andsanchez.micsuperheros.infrastructure.rest;
 
-import com.andsanchez.micsuperheros.superheros.domain.Superhero;
-import com.andsanchez.micsuperheros.superheros.domain.SuperheroService;
+import com.andsanchez.micsuperheros.domain.Superhero;
+import com.andsanchez.micsuperheros.domain.SuperheroService;
+import com.andsanchez.micsuperheros.superheros.infrastructure.rest.SuperheroApi;
+import com.andsanchez.micsuperheros.superheros.infrastructure.rest.SuperheroDto;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;

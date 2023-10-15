@@ -1,8 +1,8 @@
-package com.andsanchez.micsuperheros.superheros.application;
+package com.andsanchez.micsuperheros.application;
 
 import com.andsanchez.micsuperheros.mother.SuperheroMother;
-import com.andsanchez.micsuperheros.superheros.domain.Superhero;
-import com.andsanchez.micsuperheros.superheros.domain.SuperheroRepository;
+import com.andsanchez.micsuperheros.domain.Superhero;
+import com.andsanchez.micsuperheros.domain.SuperheroRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

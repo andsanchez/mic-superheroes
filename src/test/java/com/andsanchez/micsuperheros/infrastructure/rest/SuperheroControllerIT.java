@@ -1,5 +1,6 @@
-package com.andsanchez.micsuperheros.superheros.infrastructure.rest;
+package com.andsanchez.micsuperheros.infrastructure.rest;
 
+import com.andsanchez.micsuperheros.superheros.infrastructure.rest.SuperheroDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

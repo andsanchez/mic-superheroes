@@ -1,8 +1,10 @@
-package com.andsanchez.micsuperheros.superheros.infrastructure.persistence;
+package com.andsanchez.micsuperheros.infrastructure.persistence;
 
+import com.andsanchez.micsuperheros.infrastructure.persistence.SuperheroEntity;
+import com.andsanchez.micsuperheros.infrastructure.persistence.SuperheroEntityMapper;
 import com.andsanchez.micsuperheros.mother.SuperheroEntityMother;
 import com.andsanchez.micsuperheros.mother.SuperheroMother;
-import com.andsanchez.micsuperheros.superheros.domain.Superhero;
+import com.andsanchez.micsuperheros.domain.Superhero;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

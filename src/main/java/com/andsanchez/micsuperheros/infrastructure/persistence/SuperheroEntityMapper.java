@@ -1,6 +1,6 @@
-package com.andsanchez.micsuperheros.superheros.infrastructure.persistence;
+package com.andsanchez.micsuperheros.infrastructure.persistence;
 
-import com.andsanchez.micsuperheros.superheros.domain.Superhero;
+import com.andsanchez.micsuperheros.domain.Superhero;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;

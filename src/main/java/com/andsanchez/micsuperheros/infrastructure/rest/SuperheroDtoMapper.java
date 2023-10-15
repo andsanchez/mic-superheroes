@@ -1,6 +1,7 @@
-package com.andsanchez.micsuperheros.superheros.infrastructure.rest;
+package com.andsanchez.micsuperheros.infrastructure.rest;
 
-import com.andsanchez.micsuperheros.superheros.domain.Superhero;
+import com.andsanchez.micsuperheros.domain.Superhero;
+import com.andsanchez.micsuperheros.superheros.infrastructure.rest.SuperheroDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;

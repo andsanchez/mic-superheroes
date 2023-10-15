@@ -1,6 +1,6 @@
 package com.andsanchez.micsuperheros.mother;
 
-import com.andsanchez.micsuperheros.superheros.domain.Superhero;
+import com.andsanchez.micsuperheros.domain.Superhero;
 import net.datafaker.Faker;
 
 public class SuperheroMother {

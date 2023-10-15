@@ -1,4 +1,4 @@
-package com.andsanchez.micsuperheros.superheros.domain;
+package com.andsanchez.micsuperheros.domain;
 
 import lombok.Data;
 
