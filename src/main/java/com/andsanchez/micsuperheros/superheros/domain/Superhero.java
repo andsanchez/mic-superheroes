@@ -1,3 +1,13 @@
 package com.andsanchez.micsuperheros.superheros.domain;
 
-public record Superhero(Long id, String name) {}
+import lombok.Data;
+
+//FIXME ASR inmutable
+@Data
+public class Superhero  {
+
+    Long id;
+
+    String name;
+
+}

@@ -26,9 +26,9 @@ public class SuperheroControllerIT {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
         assertThat(List.of(response.getBody()))
-                .hasSize(2)
+                .hasSize(3)
                 .extracting("name")
-                .containsExactly("Superman", "Joker");
+                .containsExactly("Superman", "Manolito el fuerte", "Hulk");
     }
 
     @Test
@@ -41,9 +41,9 @@ public class SuperheroControllerIT {
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
         assertThat(List.of(response.getBody()))
-                .hasSize(1)
-                .first()
-                .returns("Superman", SuperheroDto::getName);
+                .hasSize(2)
+                .extracting("name")
+                .containsExactly("Superman", "Manolito el fuerte");
     }
 
     @Test

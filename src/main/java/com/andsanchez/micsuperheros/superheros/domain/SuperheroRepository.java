@@ -10,7 +10,7 @@ public interface SuperheroRepository {
 
   List<Superhero> findAll();
 
-  List<Superhero> findByNameContaining(String name);
+  List<Superhero> findByNameContainingIgnoreCase(String name);
 
   void delete(Superhero superhero);
 

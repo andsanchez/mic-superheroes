@@ -14,6 +14,6 @@ public interface SuperheroService {
 
     Superhero updateSuperhero(Superhero superhero);
 
-    void deleteSuperhero(Superhero superhero);
+    boolean deleteSuperhero(Long superheroId);
 
 }
