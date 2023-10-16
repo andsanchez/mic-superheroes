@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,10 +40,9 @@ public class SuperheroController implements SuperheroApi {
 
     @Override
     public ResponseEntity<SuperheroDto> getSuperheroById(Long id) {
-        return Optional.of(service.getSuperheroById(id))
-                .map(mapper::superheroToDto)
-                .map(superheroDto ->  ResponseEntity.status(HttpStatus.OK).body(superheroDto))
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        Superhero superheroById = service.getSuperheroById(id);
+        SuperheroDto superheroDto = mapper.superheroToDto(superheroById);
+        return ResponseEntity.status(HttpStatus.OK).body(superheroDto);
     }
 
     @Override

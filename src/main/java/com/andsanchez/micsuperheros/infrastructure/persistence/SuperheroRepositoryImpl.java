@@ -1,12 +1,12 @@
 package com.andsanchez.micsuperheros.infrastructure.persistence;
 
 import com.andsanchez.micsuperheros.domain.Superhero;
+import com.andsanchez.micsuperheros.domain.SuperheroNotFoundException;
 import com.andsanchez.micsuperheros.domain.SuperheroRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -24,11 +24,10 @@ public class SuperheroRepositoryImpl implements SuperheroRepository {
     }
 
     @Override
-    //TODO ASR Lazanar exception propia
     public Superhero findById(Long id) {
         return jpaRepository.findById(id)
                 .map(mapper::entityToSuperHero)
-                .orElseThrow();
+                .orElseThrow(() -> new SuperheroNotFoundException(id));
     }
 
     @Override
@@ -48,8 +47,7 @@ public class SuperheroRepositoryImpl implements SuperheroRepository {
 
     @Override
     public void delete(Superhero superhero) {
-        Optional.of(superhero)
-                .map(mapper::superheroToEntity)
-                .ifPresent(jpaRepository::delete);
+        SuperheroEntity superheroEntity = mapper.superheroToEntity(superhero);
+        jpaRepository.delete(superheroEntity);
     }
 }

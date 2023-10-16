@@ -22,11 +22,7 @@ public class SuperheroServiceImpl implements SuperheroService {
 
     @Override
     public Superhero getSuperheroById(Long id) {
-        Superhero superhero = superheroRepository.findById(id);
-        if (superhero == null) {
-            throw new RuntimeException("Supehero not found");
-        }
-        return superhero;
+        return superheroRepository.findById(id);
     }
 
     @Override

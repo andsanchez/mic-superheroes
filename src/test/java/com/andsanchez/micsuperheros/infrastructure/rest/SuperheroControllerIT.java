@@ -79,6 +79,15 @@ public class SuperheroControllerIT {
     }
 
     @Test
+    public void getSuperheroById_NotFound() {
+        Long nonExistingSuperheroId = 999L;
+
+        ResponseEntity<SuperheroDto> response = template.getForEntity("/v1/superheros/{id}", SuperheroDto.class, nonExistingSuperheroId);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
     public void updateSuperhero() {
         Long superheroIdToUpdate = 1L;
         SuperheroRequestDto updateSuperheroRequestDto = new SuperheroRequestDto().name("Updated Superman");
