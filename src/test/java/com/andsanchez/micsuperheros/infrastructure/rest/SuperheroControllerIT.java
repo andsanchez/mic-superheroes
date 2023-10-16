@@ -18,6 +18,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SuperheroControllerIT {
 
+    private static final SuperheroRequestDto BAD_SUPERHERO_REQUEST_DTO_NO_NAME = new SuperheroRequestDto();
+
     @Autowired
     private TestRestTemplate template;
 
@@ -59,9 +61,8 @@ public class SuperheroControllerIT {
 
     @Test
     public void createSuperhero_BadRequest() {
-        SuperheroRequestDto superheroRequestDto = new SuperheroRequestDto();
-
-        ResponseEntity<String> response = template.postForEntity("/v1/superheros", superheroRequestDto, String.class);
+        ResponseEntity<String> response = template.postForEntity("/v1/superheros",
+                BAD_SUPERHERO_REQUEST_DTO_NO_NAME, String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
@@ -121,6 +122,16 @@ public class SuperheroControllerIT {
         assertThat(response.getBody()).isNotNull()
                 .returns(superheroIdToUpdate, SuperheroDto::getId)
                 .returns(updateSuperheroRequestDto.getName(), SuperheroDto::getName);
+    }
+
+    @Test
+    public void updateSuperhero_BadRequest() {
+        Long superheroIdToUpdate = 1L;
+
+        ResponseEntity<SuperheroDto> response = template.exchange("/v1/superheros/{id}", HttpMethod.PUT,
+                new HttpEntity<>(BAD_SUPERHERO_REQUEST_DTO_NO_NAME), SuperheroDto.class, superheroIdToUpdate);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
     @Test
