@@ -2,6 +2,7 @@ package com.andsanchez.micsuperheroes.infrastructure.rest;
 
 import com.andsanchez.micsuperheroes.domain.Superhero;
 import com.andsanchez.micsuperheroes.domain.SuperheroService;
+import com.andsanchez.micsuperheroes.shared.ExecutionTime;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ public class SuperheroController implements SuperheroApi {
     private final SuperheroDtoMapper mapper;
 
     @Override
+    @ExecutionTime
     public ResponseEntity<List<SuperheroDto>> getSuperheroes(String name) {
         List<Superhero> superheroes = StringUtils.isNotEmpty(name) ? service.findSuperheroesByNameContainingIgnoreCase(name) : service.getAllSuperheroes();
         List<SuperheroDto> superheroDtos = superheroes.stream()
