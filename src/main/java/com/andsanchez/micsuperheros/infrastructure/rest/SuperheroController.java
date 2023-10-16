@@ -4,6 +4,7 @@ import com.andsanchez.micsuperheros.domain.Superhero;
 import com.andsanchez.micsuperheros.domain.SuperheroService;
 import com.andsanchez.micsuperheros.superheros.infrastructure.rest.SuperheroApi;
 import com.andsanchez.micsuperheros.superheros.infrastructure.rest.SuperheroDto;
+import com.andsanchez.micsuperheros.superheros.infrastructure.rest.SuperheroRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
@@ -31,8 +32,8 @@ public class SuperheroController implements SuperheroApi {
     }
 
     @Override
-    public ResponseEntity<SuperheroDto> createSuperhero(SuperheroDto superheroDto) {
-        Superhero superhero = mapper.dtoToSuperhero(superheroDto);
+    public ResponseEntity<SuperheroDto> createSuperhero(SuperheroRequestDto superheroRequestDto) {
+        Superhero superhero = mapper.createSuperheroRequestDtoToSuperhero(superheroRequestDto);
         Superhero createdSuperhero = service.createSuperhero(superhero);
         SuperheroDto createdSuperheroDto = mapper.superheroToDto(createdSuperhero);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdSuperheroDto);
@@ -47,13 +48,9 @@ public class SuperheroController implements SuperheroApi {
     }
 
     @Override
-    public ResponseEntity<SuperheroDto> updateSuperhero(Long id, SuperheroDto superheroDto) {
-        Superhero superhero = mapper.dtoToSuperhero(superheroDto);
-        //FIXME ASR
-        superhero.setId(id);
-
+    public ResponseEntity<SuperheroDto> updateSuperhero(Long id, SuperheroRequestDto superheroRequestDto) {
+        Superhero superhero = mapper.updateSuperheroRequestDtoToSuperhero(id, superheroRequestDto);
         Superhero updatedSuperhero = service.updateSuperhero(superhero);
-
         if (updatedSuperhero != null) {
             SuperheroDto updatedSuperheroDto = mapper.superheroToDto(updatedSuperhero);
             return ResponseEntity.status(HttpStatus.OK).body(updatedSuperheroDto);

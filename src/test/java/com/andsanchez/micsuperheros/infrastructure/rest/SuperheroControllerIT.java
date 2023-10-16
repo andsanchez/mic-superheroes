@@ -1,6 +1,7 @@
 package com.andsanchez.micsuperheros.infrastructure.rest;
 
 import com.andsanchez.micsuperheros.superheros.infrastructure.rest.SuperheroDto;
+import com.andsanchez.micsuperheros.superheros.infrastructure.rest.SuperheroRequestDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -49,10 +50,9 @@ public class SuperheroControllerIT {
 
     @Test
     public void createSuperhero() {
-        SuperheroDto superheroDto = new SuperheroDto();
-        superheroDto.setName("Hulk");
+        SuperheroRequestDto superheroRequestDto = new SuperheroRequestDto().name("Hulk");
 
-        ResponseEntity<String> response = template.postForEntity("/v1/superheros", superheroDto, String.class);
+        ResponseEntity<String> response = template.postForEntity("/v1/superheros", superheroRequestDto, String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
     }
@@ -81,16 +81,14 @@ public class SuperheroControllerIT {
     @Test
     public void updateSuperhero() {
         Long superheroIdToUpdate = 1L;
-        SuperheroDto updatedSuperheroDto = new SuperheroDto();
-        String updatedName = "Updated Superman";
-        updatedSuperheroDto.setName(updatedName);
+        SuperheroRequestDto updateSuperheroRequestDto = new SuperheroRequestDto().name("Updated Superman");
 
-        ResponseEntity<SuperheroDto> response = template.exchange("/v1/superheros/{id}", HttpMethod.PUT, new HttpEntity<>(updatedSuperheroDto), SuperheroDto.class, superheroIdToUpdate);
+        ResponseEntity<SuperheroDto> response = template.exchange("/v1/superheros/{id}", HttpMethod.PUT, new HttpEntity<>(updateSuperheroRequestDto), SuperheroDto.class, superheroIdToUpdate);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull()
-                .returns(1L, SuperheroDto::getId)
-                .returns(updatedName, SuperheroDto::getName);
+                .returns(superheroIdToUpdate, SuperheroDto::getId)
+                .returns(updateSuperheroRequestDto.getName(), SuperheroDto::getName);
     }
 
 

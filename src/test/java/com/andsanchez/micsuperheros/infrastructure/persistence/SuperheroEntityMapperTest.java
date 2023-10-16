@@ -1,23 +1,14 @@
 package com.andsanchez.micsuperheros.infrastructure.persistence;
 
-import com.andsanchez.micsuperheros.infrastructure.persistence.SuperheroEntity;
-import com.andsanchez.micsuperheros.infrastructure.persistence.SuperheroEntityMapper;
+import com.andsanchez.micsuperheros.domain.Superhero;
 import com.andsanchez.micsuperheros.mother.SuperheroEntityMother;
 import com.andsanchez.micsuperheros.mother.SuperheroMother;
-import com.andsanchez.micsuperheros.domain.Superhero;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.modelmapper.ModelMapper;
 
 class SuperheroEntityMapperTest {
 
-    private SuperheroEntityMapper mapper;
-
-    @BeforeEach
-    void setUp() {
-        mapper = new SuperheroEntityMapper(new ModelMapper());
-    }
+    private final SuperheroEntityMapper mapper = new SuperheroEntityMapper();
 
     @Test
     void entityToSuperHero() {
@@ -27,8 +18,8 @@ class SuperheroEntityMapperTest {
 
         Assertions.assertThat(superhero).isNotNull()
                 .hasNoNullFieldsOrProperties()
-                .returns(superheroEntity.getId(), Superhero::getId)
-                .returns(superheroEntity.getName(), Superhero::getName);
+                .returns(superheroEntity.getId(), Superhero::id)
+                .returns(superheroEntity.getName(), Superhero::name);
     }
 
     @Test
@@ -38,8 +29,7 @@ class SuperheroEntityMapperTest {
         SuperheroEntity superheroEntity = mapper.superheroToEntity(superhero);
 
         Assertions.assertThat(superheroEntity).isNotNull()
-                .hasNoNullFieldsOrProperties()
-                .returns(superhero.getId(), SuperheroEntity::getId)
-                .returns(superhero.getName(), SuperheroEntity::getName);
+                .returns(superhero.id(), SuperheroEntity::getId)
+                .returns(superhero.name(), SuperheroEntity::getName);
     }
 }

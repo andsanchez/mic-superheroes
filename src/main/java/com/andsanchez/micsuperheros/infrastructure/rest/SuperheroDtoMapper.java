@@ -2,22 +2,27 @@ package com.andsanchez.micsuperheros.infrastructure.rest;
 
 import com.andsanchez.micsuperheros.domain.Superhero;
 import com.andsanchez.micsuperheros.superheros.infrastructure.rest.SuperheroDto;
-import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
+import com.andsanchez.micsuperheros.superheros.infrastructure.rest.SuperheroRequestDto;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
 public class SuperheroDtoMapper {
 
-    private final ModelMapper mapper;
-
     Superhero dtoToSuperhero(SuperheroDto superheroDto) {
-        return mapper.map(superheroDto, Superhero.class);
+        return new Superhero(superheroDto.getId(), superheroDto.getName());
     }
 
     SuperheroDto superheroToDto(Superhero superhero) {
-        return mapper.map(superhero, SuperheroDto.class);
+        return new SuperheroDto()
+                .id(superhero.id())
+                .name(superhero.name());
+    }
+
+    Superhero createSuperheroRequestDtoToSuperhero(SuperheroRequestDto superheroRequestDto) {
+        return new Superhero(null, superheroRequestDto.getName());
+    }
+    Superhero updateSuperheroRequestDtoToSuperhero(Long id, SuperheroRequestDto superheroRequestDto) {
+        return new Superhero(id, superheroRequestDto.getName());
     }
 
 }

@@ -1,8 +1,8 @@
 package com.andsanchez.micsuperheros.application;
 
-import com.andsanchez.micsuperheros.mother.SuperheroMother;
 import com.andsanchez.micsuperheros.domain.Superhero;
 import com.andsanchez.micsuperheros.domain.SuperheroRepository;
+import com.andsanchez.micsuperheros.mother.SuperheroMother;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -94,13 +94,16 @@ class SuperheroServiceImplTest {
     @Test
     void updateSuperhero() {
         // Arrange
-        when(superheroRepository.save(SOME_SUPERHERO)).thenReturn(SOME_SUPERHERO);
+        Superhero existingSuperhero = new Superhero(1L, "Existing Superhero");
+        Superhero updatedSuperhero = new Superhero(1L, "Updated Superhero");
+        when(superheroRepository.findById(1L)).thenReturn(existingSuperhero);
+        when(superheroRepository.save(updatedSuperhero)).thenReturn(updatedSuperhero);
 
         // Act
-        Superhero result = superheroService.updateSuperhero(SOME_SUPERHERO);
+        Superhero result = superheroService.updateSuperhero(updatedSuperhero);
 
         // Assert
-        assertThat(result).isEqualTo(SOME_SUPERHERO);
+        assertThat(result).isEqualTo(updatedSuperhero);
     }
 
     @Test

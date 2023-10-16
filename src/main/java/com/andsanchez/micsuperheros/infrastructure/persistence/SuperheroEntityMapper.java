@@ -1,22 +1,20 @@
 package com.andsanchez.micsuperheros.infrastructure.persistence;
 
 import com.andsanchez.micsuperheros.domain.Superhero;
-import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
-public class SuperheroEntityMapper{
-
-    private final ModelMapper mapper;
+public class SuperheroEntityMapper {
 
     Superhero entityToSuperHero(SuperheroEntity superheroEntity) {
-        return mapper.map(superheroEntity, Superhero.class);
+        return new Superhero(superheroEntity.getId(), superheroEntity.getName());
     }
 
     SuperheroEntity superheroToEntity(Superhero superhero) {
-        return mapper.map(superhero, SuperheroEntity.class);
+        SuperheroEntity superheroEntity = new SuperheroEntity();
+        superheroEntity.setId(superhero.id());
+        superheroEntity.setName(superhero.name());
+        return superheroEntity;
     }
 
 }

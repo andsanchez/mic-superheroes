@@ -41,7 +41,9 @@ public class SuperheroServiceImpl implements SuperheroService {
 
     @Override
     public Superhero updateSuperhero(Superhero superhero) {
-        return superheroRepository.save(superhero);
+        Superhero existingSuperhero = superheroRepository.findById(superhero.id());
+        Superhero updatedSuperhero = new Superhero(existingSuperhero.id(), superhero.name());
+        return superheroRepository.save(updatedSuperhero);
     }
 
     @Override
