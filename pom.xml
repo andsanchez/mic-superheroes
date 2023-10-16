@@ -9,14 +9,14 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.andsanchez</groupId>
-    <artifactId>mic-superheros</artifactId>
+    <artifactId>mic-superheroes</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>mic-superheros</name>
-    <description>API for CRUD operations on superheros</description>
+    <description>API for CRUD operations on superheroes</description>
 
     <properties>
         <java.version>21</java.version>
-        <default.package>com.andsanchez.micsuperheros</default.package>
+        <default.package>com.andsanchez.micsuperheroes</default.package>
         <springdoc-openapi-starter-webmvc-ui.version>2.2.0</springdoc-openapi-starter-webmvc-ui.version>
         <modelmapper.version>3.1.1</modelmapper.version>
         <datafaker.version>2.0.2</datafaker.version>
@@ -110,7 +110,7 @@
                         </goals>
                         <configuration>
                             <!-- See https://openapi-generator.tech/docs/generators/java/ for config options -->
-                            <inputSpec>${project.basedir}/src/main/resources/spec/superheros-openapi-rest.yml
+                            <inputSpec>${project.basedir}/src/main/resources/spec/superheroes-openapi-rest.yml
                             </inputSpec>
                             <generatorName>spring</generatorName>
                             <configOptions>
@@ -121,8 +121,8 @@
                                 <useBeanValidation>true</useBeanValidation>
                                 <useJakartaEe>true</useJakartaEe>
                             </configOptions>
-                            <apiPackage>${default.package}.superheros.infrastructure.rest</apiPackage>
-                            <modelPackage>${default.package}.superheros.infrastructure.rest</modelPackage>
+                            <apiPackage>${default.package}.infrastructure.rest</apiPackage>
+                            <modelPackage>${default.package}.infrastructure.rest</modelPackage>
                             <modelNameSuffix>Dto</modelNameSuffix>
                             <generateApiDocumentation>false</generateApiDocumentation>
                             <generateModelDocumentation>false</generateModelDocumentation>

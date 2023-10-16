@@ -1,5 +1,5 @@
-# mic-superheros
-Service for hexagonal architecture and DDD to handle superheros crud operations.
+# mic-superheroes
+Service for hexagonal architecture and DDD to handle superheroes crud operations.
 
 ### Requirements
 
@@ -11,7 +11,7 @@ For building and running the application you need:
 
 ### API Documentation
 
-Open API specification at: src/main/resources/spec/superheros-openapi-rest.yml
+Open API specification at: src/main/resources/spec/superheroes-openapi-rest.yml
 
 The Swagger UI page will then be available at http://localhost:8080/swagger-ui.html 
 The OpenAPI description will be available for json format at: http://localhost:8080/v3/api-docs and is available in yaml format as well, on the following path : /v3/api-docs.yaml
