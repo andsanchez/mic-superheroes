@@ -61,7 +61,8 @@ public class SuperheroControllerIT {
     public void deleteSuperhero() {
         Long superheroIdToDelete = 2L;
 
-        ResponseEntity<String> response = template.exchange("/v1/superheros/{id}", HttpMethod.DELETE, null, String.class, superheroIdToDelete);
+        ResponseEntity<String> response = template.exchange("/v1/superheros/{id}", HttpMethod.DELETE,
+                null, String.class, superheroIdToDelete);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
     }
@@ -70,7 +71,8 @@ public class SuperheroControllerIT {
     public void getSuperheroById() {
         Long superheroId = 1L;
 
-        ResponseEntity<SuperheroDto> response = template.getForEntity("/v1/superheros/{id}", SuperheroDto.class, superheroId);
+        ResponseEntity<SuperheroDto> response = template.getForEntity("/v1/superheros/{id}",
+                SuperheroDto.class, superheroId);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull()
@@ -82,7 +84,8 @@ public class SuperheroControllerIT {
     public void getSuperheroById_NotFound() {
         Long nonExistingSuperheroId = 999L;
 
-        ResponseEntity<SuperheroDto> response = template.getForEntity("/v1/superheros/{id}", SuperheroDto.class, nonExistingSuperheroId);
+        ResponseEntity<SuperheroDto> response = template.getForEntity("/v1/superheros/{id}",
+                SuperheroDto.class, nonExistingSuperheroId);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
@@ -92,7 +95,8 @@ public class SuperheroControllerIT {
         Long superheroIdToUpdate = 1L;
         SuperheroRequestDto updateSuperheroRequestDto = new SuperheroRequestDto().name("Updated Superman");
 
-        ResponseEntity<SuperheroDto> response = template.exchange("/v1/superheros/{id}", HttpMethod.PUT, new HttpEntity<>(updateSuperheroRequestDto), SuperheroDto.class, superheroIdToUpdate);
+        ResponseEntity<SuperheroDto> response = template.exchange("/v1/superheros/{id}", HttpMethod.PUT,
+                new HttpEntity<>(updateSuperheroRequestDto), SuperheroDto.class, superheroIdToUpdate);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull()
@@ -100,6 +104,15 @@ public class SuperheroControllerIT {
                 .returns(updateSuperheroRequestDto.getName(), SuperheroDto::getName);
     }
 
+    @Test
+    public void updateSuperhero_NotFound() {
+        Long nonExistingSuperheroIdToUpdate = 77L;
+        SuperheroRequestDto updateSuperheroRequestDto = new SuperheroRequestDto().name("Updated Superhero Not Found");
 
+        ResponseEntity<SuperheroDto> response = template.exchange("/v1/superheros/{id}", HttpMethod.PUT,
+                new HttpEntity<>(updateSuperheroRequestDto), SuperheroDto.class, nonExistingSuperheroIdToUpdate);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
 
 }
