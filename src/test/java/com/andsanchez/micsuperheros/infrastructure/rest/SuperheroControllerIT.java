@@ -22,6 +22,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class SuperheroControllerIT {
 
+    private static final String PATH_SUPERHEROES = "/v1/superheros";
+
+    private static final String PATH_SUPERHEROES_ID = "/v1/superheros/{id}";
+
+    public static final String PATH_SUPERHEROES_NAME = "/v1/superheros?name=";
+
     private static final SuperheroRequestDto BAD_SUPERHERO_REQUEST_DTO_NO_NAME = new SuperheroRequestDto();
 
     @Autowired
@@ -32,7 +38,7 @@ public class SuperheroControllerIT {
 
     @Test
     public void getSuperheros() {
-        ResponseEntity<SuperheroDto[]> response = template.getForEntity("/v1/superheros", SuperheroDto[].class);
+        ResponseEntity<SuperheroDto[]> response = template.getForEntity(PATH_SUPERHEROES, SuperheroDto[].class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isNotNull();
@@ -45,7 +51,7 @@ public class SuperheroControllerIT {
     @Test
     public void getSuperherosByName() {
         String nameToSearch = "man";
-        String url = "/v1/superheros?name=" + nameToSearch;
+        String url = PATH_SUPERHEROES_NAME + nameToSearch;
 
         ResponseEntity<SuperheroDto[]> response = template.getForEntity(url, SuperheroDto[].class);
 
@@ -61,14 +67,14 @@ public class SuperheroControllerIT {
     public void createSuperhero() {
         SuperheroRequestDto superheroRequestDto = new SuperheroRequestDto().name("Hulk");
 
-        ResponseEntity<String> response = template.postForEntity("/v1/superheros", superheroRequestDto, String.class);
+        ResponseEntity<String> response = template.postForEntity(PATH_SUPERHEROES, superheroRequestDto, String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
     }
 
     @Test
     public void createSuperhero_BadRequest() throws JsonProcessingException {
-        ResponseEntity<String> response = template.postForEntity("/v1/superheros",
+        ResponseEntity<String> response = template.postForEntity(PATH_SUPERHEROES,
                 BAD_SUPERHERO_REQUEST_DTO_NO_NAME, String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
@@ -79,7 +85,7 @@ public class SuperheroControllerIT {
     public void deleteSuperhero() {
         Long superheroIdToDelete = 2L;
 
-        ResponseEntity<String> response = template.exchange("/v1/superheros/{id}", HttpMethod.DELETE,
+        ResponseEntity<String> response = template.exchange(PATH_SUPERHEROES_ID, HttpMethod.DELETE,
                 null, String.class, superheroIdToDelete);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
@@ -89,7 +95,7 @@ public class SuperheroControllerIT {
     public void deleteSuperhero_NotFound() throws JsonProcessingException {
         Long nonExistingSuperheroIdToDelete = 88L;
 
-        ResponseEntity<String> response = template.exchange("/v1/superheros/{id}", HttpMethod.DELETE,
+        ResponseEntity<String> response = template.exchange(PATH_SUPERHEROES_ID, HttpMethod.DELETE,
                 null, String.class, nonExistingSuperheroIdToDelete);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
@@ -100,7 +106,7 @@ public class SuperheroControllerIT {
     public void getSuperheroById() {
         Long superheroId = 1L;
 
-        ResponseEntity<SuperheroDto> response = template.getForEntity("/v1/superheros/{id}",
+        ResponseEntity<SuperheroDto> response = template.getForEntity(PATH_SUPERHEROES_ID,
                 SuperheroDto.class, superheroId);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -113,7 +119,7 @@ public class SuperheroControllerIT {
     public void getSuperheroById_NotFound() throws JsonProcessingException {
         Long nonExistingSuperheroId = 999L;
 
-        ResponseEntity<String> response = template.getForEntity("/v1/superheros/{id}",
+        ResponseEntity<String> response = template.getForEntity(PATH_SUPERHEROES_ID,
                 String.class, nonExistingSuperheroId);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
@@ -125,7 +131,7 @@ public class SuperheroControllerIT {
         Long superheroIdToUpdate = 1L;
         SuperheroRequestDto updateSuperheroRequestDto = new SuperheroRequestDto().name("Updated Superman");
 
-        ResponseEntity<SuperheroDto> response = template.exchange("/v1/superheros/{id}", HttpMethod.PUT,
+        ResponseEntity<SuperheroDto> response = template.exchange(PATH_SUPERHEROES_ID, HttpMethod.PUT,
                 new HttpEntity<>(updateSuperheroRequestDto), SuperheroDto.class, superheroIdToUpdate);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -138,7 +144,7 @@ public class SuperheroControllerIT {
     public void updateSuperhero_BadRequest() throws JsonProcessingException {
         Long superheroIdToUpdate = 1L;
 
-        ResponseEntity<String> response = template.exchange("/v1/superheros/{id}", HttpMethod.PUT,
+        ResponseEntity<String> response = template.exchange(PATH_SUPERHEROES_ID, HttpMethod.PUT,
                 new HttpEntity<>(BAD_SUPERHERO_REQUEST_DTO_NO_NAME), String.class, superheroIdToUpdate);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
@@ -150,7 +156,7 @@ public class SuperheroControllerIT {
         Long nonExistingSuperheroIdToUpdate = 77L;
         SuperheroRequestDto updateSuperheroRequestDto = new SuperheroRequestDto().name("Updated Superhero Not Found");
 
-        ResponseEntity<String> response = template.exchange("/v1/superheros/{id}", HttpMethod.PUT,
+        ResponseEntity<String> response = template.exchange(PATH_SUPERHEROES_ID, HttpMethod.PUT,
                 new HttpEntity<>(updateSuperheroRequestDto), String.class, nonExistingSuperheroIdToUpdate);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
