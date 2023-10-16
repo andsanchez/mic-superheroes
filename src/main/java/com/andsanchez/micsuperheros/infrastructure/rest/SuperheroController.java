@@ -55,11 +55,8 @@ public class SuperheroController implements SuperheroApi {
 
     @Override
     public ResponseEntity<Void> deleteSuperhero(Long id) {
-        if (service.deleteSuperhero(id)) {
-            return ResponseEntity.noContent().build(); // Code 204 No Content
-        } else {
-            return ResponseEntity.notFound().build(); // Code 404 Not Found
-        }
+        service.deleteSuperhero(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
