@@ -4,3 +4,6 @@ spring:
     driverClassName: org.h2.Driver
     username: sa
     password: sa
+  mvc:
+    problemdetails:
+      enabled: true
