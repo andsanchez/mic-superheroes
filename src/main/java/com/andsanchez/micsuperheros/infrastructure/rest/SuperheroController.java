@@ -49,12 +49,8 @@ public class SuperheroController implements SuperheroApi {
     public ResponseEntity<SuperheroDto> updateSuperhero(Long id, SuperheroRequestDto superheroRequestDto) {
         Superhero superhero = mapper.updateSuperheroRequestDtoToSuperhero(id, superheroRequestDto);
         Superhero updatedSuperhero = service.updateSuperhero(superhero);
-        if (updatedSuperhero != null) {
-            SuperheroDto updatedSuperheroDto = mapper.superheroToDto(updatedSuperhero);
-            return ResponseEntity.status(HttpStatus.OK).body(updatedSuperheroDto);
-        } else {
-            return ResponseEntity.notFound().build(); // Code 404 Not Found
-        }
+        SuperheroDto updatedSuperheroDto = mapper.superheroToDto(updatedSuperhero);
+        return ResponseEntity.status(HttpStatus.OK).body(updatedSuperheroDto);
     }
 
     @Override
