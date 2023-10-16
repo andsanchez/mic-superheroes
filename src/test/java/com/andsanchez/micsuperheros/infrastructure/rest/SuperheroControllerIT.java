@@ -68,6 +68,16 @@ public class SuperheroControllerIT {
     }
 
     @Test
+    public void deleteSuperhero_NotFound() {
+        Long nonExistingSuperheroIdToDelete = 88L;
+
+        ResponseEntity<String> response = template.exchange("/v1/superheros/{id}", HttpMethod.DELETE,
+                null, String.class, nonExistingSuperheroIdToDelete);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
     public void getSuperheroById() {
         Long superheroId = 1L;
 
