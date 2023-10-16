@@ -23,7 +23,7 @@ public class SuperheroController implements SuperheroApi {
 
     @Override
     public ResponseEntity<List<SuperheroDto>> getSuperheros(String name) {
-        List<Superhero> superheros = StringUtils.isNotEmpty(name) ? service.findSuperheroesByNameContaining(name) : service.getAllSuperheroes();
+        List<Superhero> superheros = StringUtils.isNotEmpty(name) ? service.findSuperheroesByNameContainingIgnoreCase(name) : service.getAllSuperheroes();
         List<SuperheroDto> superheroDtos = superheros.stream()
                 .map(mapper::superheroToDto)
                 .toList();

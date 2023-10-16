@@ -79,13 +79,13 @@ class SuperheroServiceImplTest {
     }
 
     @Test
-    void findSuperheroesByNameContaining() {
+    void findSuperheroesByNameContainingIgnoreCase() {
         // Arrange
         String searchName = "man";
         when(superheroRepository.findByNameContainingIgnoreCase(searchName)).thenReturn(SUPERHEROES);
 
         // Act
-        List<Superhero> result = superheroService.findSuperheroesByNameContaining(searchName);
+        List<Superhero> result = superheroService.findSuperheroesByNameContainingIgnoreCase(searchName);
 
         // Assert
         assertThat(result).isEqualTo(SUPERHEROES);

@@ -31,7 +31,7 @@ public class SuperheroServiceImpl implements SuperheroService {
     }
 
     @Override
-    public List<Superhero> findSuperheroesByNameContaining(String name) {
+    public List<Superhero> findSuperheroesByNameContainingIgnoreCase(String name) {
         return superheroRepository.findByNameContainingIgnoreCase(name);
     }
 

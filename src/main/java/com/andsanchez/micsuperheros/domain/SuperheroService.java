@@ -10,7 +10,7 @@ public interface SuperheroService {
 
     List<Superhero> getAllSuperheroes();
 
-    List<Superhero> findSuperheroesByNameContaining(String name);
+    List<Superhero> findSuperheroesByNameContainingIgnoreCase(String name);
 
     Superhero updateSuperhero(Superhero superhero);
 
