@@ -58,6 +58,15 @@ public class SuperheroControllerIT {
     }
 
     @Test
+    public void createSuperhero_BadRequest() {
+        SuperheroRequestDto superheroRequestDto = new SuperheroRequestDto();
+
+        ResponseEntity<String> response = template.postForEntity("/v1/superheros", superheroRequestDto, String.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
     public void deleteSuperhero() {
         Long superheroIdToDelete = 2L;
 
