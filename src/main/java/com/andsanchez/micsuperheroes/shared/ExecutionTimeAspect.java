@@ -11,14 +11,25 @@ import org.springframework.stereotype.Component;
 @Component
 public class ExecutionTimeAspect {
 
-    private static final Logger log = LoggerFactory.getLogger(ExecutionTimeAspect.class);
+    private static final Logger logger = LoggerFactory.getLogger(ExecutionTimeAspect.class);
 
-    @Around("@annotation(ExecutionTime)")
-    public Object measureExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
+
+    @Around("@annotation(executionTimeAnnotation)")
+    public Object measureExecutionTime(ProceedingJoinPoint joinPoint, ExecutionTime executionTimeAnnotation) throws Throwable {
         long startTime = System.currentTimeMillis();
         Object result = joinPoint.proceed();
         long executionTime = System.currentTimeMillis() - startTime;
-        log.info(joinPoint.getSignature().toShortString() + " executed in " + executionTime + "ms");
+
+        logMessage(joinPoint, executionTimeAnnotation, executionTime);
+
         return result;
     }
+
+    private static void logMessage(ProceedingJoinPoint joinPoint, ExecutionTime executionTimeAnnotation, long executionTime) {
+        if (executionTime >= executionTimeAnnotation.thresholdMillis()) {
+            logger.atLevel(executionTimeAnnotation.logLevel())
+                    .log(joinPoint.getSignature().toShortString() + " executed in " + executionTime + "ms");
+        }
+    }
+
 }

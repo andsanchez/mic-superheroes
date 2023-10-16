@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static org.slf4j.event.Level.TRACE;
+import static org.slf4j.event.Level.WARN;
+
+
 @RestController
 @RequiredArgsConstructor
 public class SuperheroController implements SuperheroApi {
@@ -30,6 +34,7 @@ public class SuperheroController implements SuperheroApi {
     }
 
     @Override
+    @ExecutionTime(logLevel = TRACE)
     public ResponseEntity<SuperheroDto> createSuperhero(SuperheroRequestDto superheroRequestDto) {
         Superhero superhero = mapper.createSuperheroRequestDtoToSuperhero(superheroRequestDto);
         Superhero createdSuperhero = service.createSuperhero(superhero);
@@ -38,6 +43,7 @@ public class SuperheroController implements SuperheroApi {
     }
 
     @Override
+    @ExecutionTime(thresholdMillis = 5L, logLevel = WARN)
     public ResponseEntity<SuperheroDto> getSuperheroById(Long id) {
         Superhero superheroById = service.getSuperheroById(id);
         SuperheroDto superheroDto = mapper.superheroToDto(superheroById);
@@ -45,6 +51,7 @@ public class SuperheroController implements SuperheroApi {
     }
 
     @Override
+    @ExecutionTime
     public ResponseEntity<SuperheroDto> updateSuperhero(Long id, SuperheroRequestDto superheroRequestDto) {
         Superhero superhero = mapper.updateSuperheroRequestDtoToSuperhero(id, superheroRequestDto);
         Superhero updatedSuperhero = service.updateSuperhero(superhero);
@@ -53,6 +60,7 @@ public class SuperheroController implements SuperheroApi {
     }
 
     @Override
+    @ExecutionTime
     public ResponseEntity<Void> deleteSuperhero(Long id) {
         service.deleteSuperhero(id);
         return ResponseEntity.noContent().build();

@@ -4,7 +4,6 @@ import com.andsanchez.micsuperheroes.domain.SuperheroService;
 import com.andsanchez.micsuperheroes.infrastructure.rest.SuperheroApi;
 import com.andsanchez.micsuperheroes.infrastructure.rest.SuperheroController;
 import com.andsanchez.micsuperheroes.infrastructure.rest.SuperheroDtoMapper;
-import jakarta.validation.Valid;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -19,24 +18,24 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ExtendWith(OutputCaptureExtension.class)
 class ExecutionTimeAspectTest {
 
-    private static final @Valid String NULL_NAME = null;
+    private static final String NULL_NAME = null;
 
     private final SuperheroService superheroService = Mockito.mock(SuperheroService.class);
 
     @Test
-    void measureExecutionTime(CapturedOutput output) {
+    void measureExecutionTimeDefault(CapturedOutput output) {
         // Arrange - Aspect config and target
         ExecutionTimeAspect executionTimeAspect = new ExecutionTimeAspect();
         SuperheroApi target = new SuperheroController(superheroService, new SuperheroDtoMapper());
         AspectJProxyFactory factory = new AspectJProxyFactory(target);
         factory.addAspect(executionTimeAspect);
+        SuperheroApi proxy = factory.getProxy();
         Mockito.when(superheroService.getAllSuperheroes()).thenReturn(Collections.emptyList());
 
-        // Act - Retrieve target proxy and execute method
-        SuperheroApi proxy = factory.getProxy();
+        // Act - Execute target proxy method annotated
         proxy.getSuperheroes(NULL_NAME);
 
-        // Assert
+        // Assert - Verify log
         assertThat(output.getOut()).contains("SuperheroApi.getSuperheroes(..) executed in");
     }
 
