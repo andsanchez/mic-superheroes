@@ -2,6 +2,10 @@ package com.andsanchez.micsuperheros.infrastructure.rest;
 
 import com.andsanchez.micsuperheros.superheros.infrastructure.rest.SuperheroDto;
 import com.andsanchez.micsuperheros.superheros.infrastructure.rest.SuperheroRequestDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,6 +26,9 @@ public class SuperheroControllerIT {
 
     @Autowired
     private TestRestTemplate template;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     public void getSuperheros() {
@@ -60,11 +67,12 @@ public class SuperheroControllerIT {
     }
 
     @Test
-    public void createSuperhero_BadRequest() {
+    public void createSuperhero_BadRequest() throws JsonProcessingException {
         ResponseEntity<String> response = template.postForEntity("/v1/superheros",
                 BAD_SUPERHERO_REQUEST_DTO_NO_NAME, String.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertBadRequestError(response);
     }
 
     @Test
@@ -78,13 +86,14 @@ public class SuperheroControllerIT {
     }
 
     @Test
-    public void deleteSuperhero_NotFound() {
+    public void deleteSuperhero_NotFound() throws JsonProcessingException {
         Long nonExistingSuperheroIdToDelete = 88L;
 
         ResponseEntity<String> response = template.exchange("/v1/superheros/{id}", HttpMethod.DELETE,
                 null, String.class, nonExistingSuperheroIdToDelete);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertSuperheroNotFoundError(response, nonExistingSuperheroIdToDelete);
     }
 
     @Test
@@ -101,13 +110,14 @@ public class SuperheroControllerIT {
     }
 
     @Test
-    public void getSuperheroById_NotFound() {
+    public void getSuperheroById_NotFound() throws JsonProcessingException {
         Long nonExistingSuperheroId = 999L;
 
-        ResponseEntity<SuperheroDto> response = template.getForEntity("/v1/superheros/{id}",
-                SuperheroDto.class, nonExistingSuperheroId);
+        ResponseEntity<String> response = template.getForEntity("/v1/superheros/{id}",
+                String.class, nonExistingSuperheroId);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertSuperheroNotFoundError(response, nonExistingSuperheroId);
     }
 
     @Test
@@ -125,24 +135,43 @@ public class SuperheroControllerIT {
     }
 
     @Test
-    public void updateSuperhero_BadRequest() {
+    public void updateSuperhero_BadRequest() throws JsonProcessingException {
         Long superheroIdToUpdate = 1L;
 
-        ResponseEntity<SuperheroDto> response = template.exchange("/v1/superheros/{id}", HttpMethod.PUT,
-                new HttpEntity<>(BAD_SUPERHERO_REQUEST_DTO_NO_NAME), SuperheroDto.class, superheroIdToUpdate);
+        ResponseEntity<String> response = template.exchange("/v1/superheros/{id}", HttpMethod.PUT,
+                new HttpEntity<>(BAD_SUPERHERO_REQUEST_DTO_NO_NAME), String.class, superheroIdToUpdate);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertBadRequestError(response);
     }
 
     @Test
-    public void updateSuperhero_NotFound() {
+    public void updateSuperhero_NotFound() throws JsonProcessingException {
         Long nonExistingSuperheroIdToUpdate = 77L;
         SuperheroRequestDto updateSuperheroRequestDto = new SuperheroRequestDto().name("Updated Superhero Not Found");
 
-        ResponseEntity<SuperheroDto> response = template.exchange("/v1/superheros/{id}", HttpMethod.PUT,
-                new HttpEntity<>(updateSuperheroRequestDto), SuperheroDto.class, nonExistingSuperheroIdToUpdate);
+        ResponseEntity<String> response = template.exchange("/v1/superheros/{id}", HttpMethod.PUT,
+                new HttpEntity<>(updateSuperheroRequestDto), String.class, nonExistingSuperheroIdToUpdate);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+        assertSuperheroNotFoundError(response, nonExistingSuperheroIdToUpdate);
     }
 
+    private JsonNode getAndAssertJsonNodeRoot(ResponseEntity<String> response) throws JsonProcessingException {
+        assertThat(response.getBody()).isNotNull();
+        JsonNode root = objectMapper.readTree(response.getBody());
+        Assertions.assertThat(root).isNotNull();
+        return root;
+    }
+
+    private void assertSuperheroNotFoundError(ResponseEntity<String> response, Long superheroId) throws JsonProcessingException {
+        JsonNode root = getAndAssertJsonNodeRoot(response);
+        assertThat(root.path("title").asText()).isEqualTo("Superhero Not Found");
+        assertThat(root.path("detail").asText()).isEqualTo("Superhero with id " + superheroId + " not found");
+    }
+
+    private void assertBadRequestError(ResponseEntity<String> response) throws JsonProcessingException {
+        JsonNode root = getAndAssertJsonNodeRoot(response);
+        assertThat(root.path("detail").asText()).isEqualTo("Invalid request content.");
+    }
 }
