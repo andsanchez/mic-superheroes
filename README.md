@@ -70,7 +70,7 @@ Here are the advantages of this approach:
 
 ## API Quickstart
 
-You can use the postman collection included in the directory `src/main/postman` to test the api.
+You can use the postman collection included in the directory `src/main/resources/postman` to test the api.
 
 ## Technologies dependencies
 
