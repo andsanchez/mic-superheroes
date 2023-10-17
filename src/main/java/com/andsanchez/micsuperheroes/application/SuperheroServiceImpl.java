@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -43,13 +42,8 @@ public class SuperheroServiceImpl implements SuperheroService {
     }
 
     @Override
-    public boolean deleteSuperhero(Long superheroId) {
-        Optional<Superhero> superheroOptional = Optional.ofNullable(superheroRepository.findById(superheroId));
-        if (superheroOptional.isPresent()) {
-            superheroRepository.delete(superheroOptional.get());
-            return true;
-        } else {
-            return false;
-        }
+    public void deleteSuperhero(Long superheroId) {
+        Superhero superheroToDelete = superheroRepository.findById(superheroId);
+        superheroRepository.delete(superheroToDelete);
     }
 }

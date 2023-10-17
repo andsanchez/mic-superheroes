@@ -9,8 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class SuperheroServiceImplTest {
 
@@ -56,17 +55,6 @@ class SuperheroServiceImplTest {
     }
 
     @Test
-    void getSuperheroById_NotFound() {
-        // Arrange
-        Long superheroId = 1L;
-
-//        when(superheroRepository.findById(superheroId)).thenReturn(Optional.empty());
-
-        // Act and Assert
-//        assertThrows(RuntimeException.class, () -> superheroService.getSuperheroById(superheroId));
-    }
-
-    @Test
     void getAllSuperheroes() {
         // Arrange
         when(superheroRepository.findAll()).thenReturn(SUPERHEROES);
@@ -108,5 +96,15 @@ class SuperheroServiceImplTest {
 
     @Test
     void deleteSuperhero() {
+        // Arrange
+        Long superheroToDeleteId = SOME_SUPERHERO.id();
+        when(superheroRepository.findById(superheroToDeleteId)).thenReturn(SOME_SUPERHERO);
+
+        // Act
+        superheroService.deleteSuperhero(superheroToDeleteId);
+
+        // Assert
+        verify(superheroRepository, times(1)).delete(SOME_SUPERHERO);
     }
+
 }
